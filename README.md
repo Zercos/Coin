@@ -1,4 +1,4 @@
-# mycrm
+# Coin
 
 ## Project setup
 ```
