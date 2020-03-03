@@ -29,13 +29,13 @@
       <div class="input-field">
         <input id="amount" type="number" />
         <label for="amount">Amount</label>
-        <span class="helper-text invalid">amount пароль</span>
+        <span class="helper-text invalid">amount</span>
       </div>
 
       <div class="input-field">
         <input id="description" type="text" />
         <label for="description">Description</label>
-        <span class="helper-text invalid">description пароль</span>
+        <span class="helper-text invalid">description</span>
       </div>
 
       <button class="btn waves-effect waves-light" type="submit">
