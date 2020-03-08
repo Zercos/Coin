@@ -65,12 +65,24 @@ export default {
     email: { email, required },
     password: { required, minLength: minLength(6) }
   },
+  mounted () {
+    if (this.$route.query.message) {
+      this.$message(this.$route.query.message)
+    }
+  },
   methods: {
     submitHandler () {
       if (this.$v.$invalid) {
         this.$v.$touch()
         return
       }
+      const formData = {
+        email: this.email,
+        password: this.password,
+        name: this.name,
+        agree: this.agree
+      }
+      console.log(formData)
       this.$router.push('/')
     }
   }
