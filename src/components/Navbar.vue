@@ -23,9 +23,9 @@
             </li>
             <li class="divider" tabindex="-1"></li>
             <li>
-              <router-link to="/login?message=Logout" class="black-text">
+              <a href="#" @click.prevent="logout" class="black-text">
                 <i class="material-icons">assignment_return</i>Sign out
-              </router-link>
+              </a>
             </li>
           </ul>
         </li>
@@ -51,6 +51,12 @@ export default {
   beforeDestroy () {
     clearInterval(this.interval)
     if (this.dropdown && this.dropdown.destoroy) this.dropdown.destoroy()
+  },
+  methods: {
+    async logout () {
+      await this.$store.dispatch('logout')
+      this.$router.push('/login?message=logout')
+    }
   }
 }
 </script>
