@@ -1,4 +1,4 @@
-export default function dateFilter (value, format = 'date') {
+export function dateFilter (value, format = 'date') {
   const options = {}
   if (format.includes('date')) {
     options.day = '2-digit'
@@ -11,4 +11,8 @@ export default function dateFilter (value, format = 'date') {
     options.second = 'numeric'
   }
   return new Intl.DateTimeFormat('pl-PL', options).format(value)
+}
+
+export function moneyFilter (value, currency = 'EUR') {
+  return new Intl.NumberFormat('pl-PL', { style: 'currency', currency }).format(value)
 }

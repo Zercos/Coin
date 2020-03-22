@@ -5,13 +5,13 @@
         <a href="#" @click.prevent="$emit('hide-navbar')">
           <i class="material-icons black-text">dehaze</i>
         </a>
-        <span class="black-text">{{ date | date('datetime')}}</span>
+        <span class="black-text">{{ date | fmtDate('datetime')}}</span>
       </div>
 
       <ul class="right hide-on-small-and-down">
         <li>
           <a class="dropdown-trigger black-text" href="#" data-target="dropdown" ref="dropdown">
-            USER NAME
+            {{ userName }}
             <i class="material-icons right">arrow_drop_down</i>
           </a>
 
@@ -51,6 +51,11 @@ export default {
   beforeDestroy () {
     clearInterval(this.interval)
     if (this.dropdown && this.dropdown.destoroy) this.dropdown.destoroy()
+  },
+  computed: {
+    userName () {
+      return this.$store.getters.info.name
+    }
   },
   methods: {
     async logout () {

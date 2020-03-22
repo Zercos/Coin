@@ -5,7 +5,10 @@
 
     <main class="app-content" :class="{full: !sidebarIsOpen}">
       <div class="app-page">
-        <router-view />
+        <loader v-if="loading" />
+        <div v-else>
+          <router-view />
+        </div>
       </div>
     </main>
 
@@ -28,7 +31,24 @@ export default {
   },
   data: function () {
     return {
-      sidebarIsOpen: true
+      sidebarIsOpen: true,
+      loading: true
+    }
+  },
+  async mounted () {
+    if (!Object.keys(this.$store.getters.info).length) {
+      await this.$store.dispatch('getInfo')
+    }
+    this.loading = false
+  },
+  computed: {
+    error () {
+      return this.$store.getters.error
+    }
+  },
+  watch: {
+    error (fbError) {
+      this.$error(fbError.message)
     }
   }
 }
