@@ -14,7 +14,12 @@
 <script>
 export default {
   name: 'home-bill',
-  props: ['rates'],
+  props: {
+    rates: {
+      type: Object,
+      default: () => ([])
+    }
+  },
   data: () => ({
     currencies: ['EUR', 'USD', 'UAH']
   }),

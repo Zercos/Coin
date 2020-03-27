@@ -21,6 +21,14 @@ export default {
       } catch (error) {
         commit('setError', error)
       }
+    },
+    async createCategory ({ commit, dispatch }, categoryData) {
+      try {
+        const uid = await dispatch('getUid')
+        await firebase.database().ref(`users/${uid}/info`).set(categoryData)
+      } catch (error) {
+        commit('setError', error)
+      }
     }
   },
   getters: {
