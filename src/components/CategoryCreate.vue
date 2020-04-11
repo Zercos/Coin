@@ -7,13 +7,13 @@
 
       <form @submit.prevent="handleCreate">
         <div class="input-field">
-          <input id="name" type="text" v-model="name" :class="{invalid: $v.name.$dirty && !$v.name.required}" />
-          <label for="name">Name</label>
+          <input id="title" type="text" v-model="title" :class="{invalid: $v.title.$dirty && !$v.title.required}" />
+          <label for="title">Title</label>
           <span
-            v-if="$v.name.$dirty && !$v.name.required"
+            v-if="$v.title.$dirty && !$v.title.required"
             class="helper-text invalid"
           >
-            Enter name
+            Enter Title
           </span>
         </div>
 
@@ -46,13 +46,13 @@ import M from 'materialize-css'
 import { required, minValue } from 'vuelidate/lib/validators'
 
 export default {
-  name: 'category-create',
+  title: 'category-create',
   data: () => ({
     limit: 10,
-    name: ''
+    title: ''
   }),
   validations: {
-    name: { required },
+    title: { required },
     limit: { required, minValue: minValue(10) }
   },
   mounted () {
@@ -66,14 +66,16 @@ export default {
       }
       const categoryData = {
         limit: this.limit,
-        name: this.name
+        title: this.title
       }
-      const category = await this.$store.dispatch('createCategory', categoryData)
-      this.limit = 10
-      this.name = ''
-      this.$v.reset()
-      this.message('The category was created.')
-      this.$emit('created', category)
+      try {
+        const category = await this.$store.dispatch('createCategory', categoryData)
+        this.limit = 10
+        this.title = ''
+        this.$v.$reset()
+        this.$message('The category was created.')
+        this.$emit('created', category)
+      } catch (e) {}
     }
   }
 }
