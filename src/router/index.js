@@ -35,7 +35,7 @@ const routes = [
   {
     path: '/record',
     name: 'Record',
-    meta: { layout: 'main' },
+    meta: { layout: 'main', title: 'New entry - Coin' },
     component: () => import('../views/Record.vue')
   },
   {

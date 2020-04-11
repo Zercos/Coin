@@ -19,6 +19,11 @@ export default {
     layout () {
       return (this.$route.meta.layout || 'empty') + '-layout'
     }
+  },
+  watch: {
+    '$route' (to, from) {
+      document.title = to.meta.title || 'Your Coin'
+    }
   }
 }
 </script>

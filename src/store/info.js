@@ -22,12 +22,22 @@ export default {
         commit('setError', error)
       }
     },
-    async createCategory ({ commit, dispatch }, categoryData) {
+    async createCategory ({ commit, dispatch }, { title, limit }) {
       try {
         const uid = await dispatch('getUid')
-        await firebase.database().ref(`users/${uid}/info`).set(categoryData)
+        const category = await firebase.database().ref(`users/${uid}/categories`).push({ title, limit })
+        return { title, limit, id: category.key }
       } catch (error) {
         commit('setError', error)
+      }
+    },
+    async getCategories ({ commit, dispatch }) {
+      try {
+        const uid = dispatch('getUid')
+        const categories = await firebase.database().ref(`users/${uid}/`)
+        return categories
+      } catch (error) {
+        throw error.message
       }
     }
   },

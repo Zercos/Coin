@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import M from 'materialize-css'
 import { required, minValue } from 'vuelidate/lib/validators'
 
 export default {
@@ -54,6 +55,9 @@ export default {
     name: { required },
     limit: { required, minValue: minValue(10) }
   },
+  mounted () {
+    M.updateTextFields()
+  },
   methods: {
     async handleCreate () {
       if (this.$v.$invalid) {
@@ -64,9 +68,12 @@ export default {
         limit: this.limit,
         name: this.name
       }
-      await this.$store.dispatch('createCategory', categoryData)
+      const category = await this.$store.dispatch('createCategory', categoryData)
       this.limit = 10
       this.name = ''
+      this.$v.reset()
+      this.message('The category was created.')
+      this.$emit('created', category)
     }
   }
 }
