@@ -1,0 +1,18 @@
+@startuml "Show statistics"
+start
+:User open dashboard;
+:Send GET to API;
+:Check auth token;
+if (token is invalid) then (yes)
+    :Return 401 to GUI;
+    :Redirect to login page;
+    stop
+else (no)
+endif
+:Get user id from token;
+:Retrive data from DB for user;
+:Group by requested time range;
+:Return data to GUI;
+:Make chart of data;
+stop
+@enduml

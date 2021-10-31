@@ -1,0 +1,15 @@
+@startuml "Add new category"
+start
+:Show new category form;
+:Validate on "save";
+:Send data to API;
+if (Category exist) then (yes)
+    :Return 409 to GUI;
+    :Show info that such category already exists;
+else (no)
+    :Save to DB;
+    :Return 201 to GUI;
+    :Show success popup;
+endif
+stop
+@enduml
