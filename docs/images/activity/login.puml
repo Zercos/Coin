@@ -1,0 +1,19 @@
+@startuml User authentication
+start
+:User enter home page;
+if (Auth token is valid?) then (no)
+    :Show login page;
+    :Send credentials to backend API;
+    if (login is exists in DB?) then (yes)
+        :Log user in;
+        :Return auth toke to GUI;
+        :Redirect user to home page;
+    else (no)
+        :Return that given user not exists;
+        stop
+    endif
+else (yes)
+endif
+:Show user's personal home page;
+stop
+@enduml

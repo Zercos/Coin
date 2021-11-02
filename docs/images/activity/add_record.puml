@@ -1,0 +1,22 @@
+@startuml "Add new record"
+start
+:Show "New record" form;
+if (Only one category exists) then (yes)
+    :Set as default category;
+elseif (More then one category exists) then (yes)
+    :Set as empty field, with select options;
+else
+    :Leave as blank;
+endif
+:On click "Save" validate data;
+:Send data to API;
+:Save data to DB;
+if (Saved?) then (yes)
+    :Return 201 to GUI;
+    :Show success popup;
+else (no)
+    :Return error to GUI;
+    :Show error;
+endif
+stop
+@enduml
