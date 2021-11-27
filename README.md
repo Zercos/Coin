@@ -1,6 +1,6 @@
 # Coin
 
-A CRM application for budget management. :moneybag:
+Application for personal budget management. :moneybag:
 
 ## About
 
