@@ -1,62 +1,68 @@
 <template>
-  <form class="card auth-card" @submit.prevent="submitHandler">
+  <img class="responsive-img" src="@/assets/logo.png" alt="" style="display: block; margin: 0 auto;">
+  <form class="card" style="max-width: 400px; width: 100%" @submit.prevent="submitHandler">
     <div class="card-content">
-      <span class="card-title">Home accounting</span>
+      <span class="card-title" style="text-align: center">Login</span>
       <div class="input-field">
         <input
           id="email"
           type="text"
-          :class="{invalid: ($v.email.$dirty && !$v.email.required) || ($v.email.$dirty && !$v.email.email)}"
+          :class="{invalid: (v$.email.$dirty && !v$.email.required) || (v$.email.$dirty && !v$.email.email)}"
           v-model.trim="email"
         />
         <label for="email">Email</label>
         <small
           class="helper-text invalid"
-          v-if="$v.email.$dirty && !$v.email.required"
+          v-if="v$.email.$dirty && !v$.email.required"
         >Please provide the email address</small>
         <small
           class="helper-text invalid"
-          v-else-if="$v.email.$dirty && !$v.email.email"
+          v-else-if="v$.email.$dirty && !v$.email.email"
         >Please provide the correct email address</small>
       </div>
       <div class="input-field">
         <input
           id="password"
           type="password"
-          :class="{invalid: ($v.password.$dirty && !$v.password.required) || ($v.password.$dirty && !$v.password.minLength)}"
+          :class="{invalid: (v$.password.$dirty && !v$.password.required) || (v$.password.$dirty && !v$.password.minLength)}"
           v-model="password"
         />
         <label for="password">Password</label>
         <small
           class="helper-text invalid"
-          v-if="$v.password.$dirty && !$v.password.required"
+          v-if="v$.password.$dirty && !v$.password.required"
         >Please provide the password</small>
         <small
           class="helper-text invalid"
-          v-else-if="$v.password.$dirty && !$v.password.minLength"
-        >Password lenght can't be less then {{$v.password.$params.minLength.min}}</small>
+          v-else-if="v$.password.$dirty && !v$.password.minLength"
+        >Password lenght can't be less then {{v$.password.$params.minLength.min}}</small>
       </div>
     </div>
     <div class="card-action">
       <div>
         <button class="btn waves-effect waves-light auth-submit" type="submit">
-          Sign in
+          Log in
           <i class="material-icons right">send</i>
         </button>
       </div>
 
       <p class="center">
-        Not signed up?
-        <router-link to="/register">Sign up</router-link>
+        Don't have an account?
+        <router-link to="/register">Register</router-link>
       </p>
     </div>
   </form>
 </template>
 
 <script>
-import { required, email, minLength } from 'vuelidate/lib/validators'
-export default {
-  name: 'login',
+import { defineComponent } from 'vue'
+import useVuelidate from '@vuelidate/core'
+import { required, email, minLength } from '@vuelidate/validators'
+export default defineComponent({
+  name: 'Login',
+  setup () {
+    return { v$: useVuelidate() }
+  },
   data: () => ({
     email: '',
     password: ''
@@ -72,8 +78,8 @@ export default {
   },
   methods: {
     async submitHandler () {
-      if (this.$v.$invalid) {
-        this.$v.$touch()
+      if (this.v$.$invalid) {
+        this.v$.$touch()
         return
       }
       const formData = {
@@ -83,8 +89,9 @@ export default {
       try {
         await this.$store.dispatch('login', formData)
         this.$router.push('/')
+      // eslint-disable-next-line no-empty
       } catch (e) {}
     }
   }
-}
+})
 </script>

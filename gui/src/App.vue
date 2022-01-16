@@ -1,23 +1,22 @@
 <template>
-  <div id="app">
-    <component :is="layout">
-      <router-view />
-    </component>
-  </div>
+  <component :is="layout">
+    <router-view />
+  </component>
 </template>
 
 <script>
-import EmptyLayout from '@/layouts/EmptyLayout'
-import MainLayout from '@/layouts/MainLayout'
+import { defineComponent } from 'vue'
+import AuthLayout from '@/layouts/AuthLayout'
+import Layout from '@/layouts/Layout'
 
-export default {
+export default defineComponent({
   components: {
-    EmptyLayout,
-    MainLayout
+    AuthLayout,
+    Layout
   },
   computed: {
     layout () {
-      return (this.$route.meta.layout || 'empty') + '-layout'
+      return this.$store.getters.isLoggedIn ? 'layout' : 'auth-layout'
     }
   },
   watch: {
@@ -25,10 +24,11 @@ export default {
       document.title = to.meta.title || 'Your Coin'
     }
   }
-}
+})
 </script>
 
-<style lang="scss">
+
+<style>
 @import "~materialize-css/dist/css/materialize.min.css";
 @import "assets/index.css";
 </style>
