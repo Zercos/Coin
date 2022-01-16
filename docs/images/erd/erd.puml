@@ -1,0 +1,77 @@
+@startuml "ERD"
+
+entity User {
+    * id: number <<generaged>>
+    --
+    * first_name: text
+    * last_name: text
+    * email: text
+    * password: text
+    * created_at: datetime
+    modified_at: datetime
+}
+
+entity Category {
+    * id: number <<generaged>>
+    --
+    * name: text
+    * user_id: number <<FK>>
+    limit: number
+    description: text
+    * created_at: datetime
+    modified_at: datetime
+}
+
+entity CategoryAud {
+    * id: number <<generaged>>
+    --
+    * category_id: number <<FK>>
+    * log_id: number <<FK>>
+}
+
+entity Record {
+    * id: number <<generaged>>
+    --
+    * name: text
+    * category_id: number <<FK>>
+    * user_id: number <<FK>>
+    * type: number
+    * amount: number
+    * created_at: datetime
+    modified_at: datetime
+    description: text
+}
+
+entity RecordAud {
+    * id: number <<generaged>>
+    --
+    * record_id: number <<FK>> 
+    * log_id: number <<FK>>
+}
+
+entity UserImage {
+    * id: number <<generaged>>
+    --
+    user_id: number <<FK>>
+    image: image
+}
+
+entity LogInfo {
+    * id: number <<generaged>>
+    --
+    * type: number
+    * fk: number
+}
+
+Record }o--|| User
+Category }o--|| User
+Record }o--|| Category
+UserImage }|--|| User
+RecordAud }|--|| Record
+RecordAud --|> Record
+CategoryAud }|--|| Category
+CategoryAud --|> Category
+LogInfo ||--|| RecordAud
+LogInfo ||--|| CategoryAud
+
+@enduml

@@ -1,0 +1,46 @@
+@startuml "Class diagram"
+skinparam classAttributeIconSize 0
+skinparam class {
+    BackgroundColor Wheat
+}
+
+class User {
+    first_name: String
+    last_name: String
+    email: String
+    password: String
+    create()
+    add_expense()
+    add_category()
+    change_password()
+    check_password()
+}
+
+class Category {
+    name: String
+    limit: Float
+    user: User
+    create()
+    edit()
+    delete()
+    get_remainder()
+}
+
+enum RecordType {
+    INCOME
+    OUTCOME
+}
+
+class Record {
+    name: String
+    description: String
+    amount: Float
+    type: RecordType
+}
+
+Category "1" <-- "*" Record
+User "1" <-left- "*" Category
+User "1" <-- "*" Record
+Record o-left- RecordType
+
+@enduml

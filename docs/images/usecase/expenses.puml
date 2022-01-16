@@ -1,0 +1,16 @@
+@startuml "Add expense"
+
+left to right direction
+actor User
+rectangle Application {
+    User --> (Expenses history)
+    (Expenses history) .> (Authentication) : include
+    (Add expense) .> (Expenses history) : extends
+    (Expenses history) <.. (Organize expenses) : extends
+    (Select category) .> (Add expense) : include
+    (Manage categories) .> (Select category) : extends
+    (Filter by category) .> (Organize expenses) : extends
+    (Expenses history) <.. (Edit expense) : extends
+}
+
+@enduml
