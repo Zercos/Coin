@@ -4,43 +4,112 @@ skinparam class {
     BackgroundColor Wheat
 }
 
-class User {
-    first_name: String
-    last_name: String
-    email: String
-    password: String
-    create()
-    add_expense()
-    add_category()
-    change_password()
-    check_password()
+package "DB Models" {}
+
+package "Resources" {
+
+class SqlAlchemySession {
+    engine: DBEngine
+    db_url: String
+    connection_pool: Pool
+    commit()
+    add()
+    rollback()
+    add_all()
+    begin()
+    current_engine()
 }
 
-class Category {
-    name: String
-    limit: Float
-    user: User
-    create()
-    edit()
+class Request {
+    encoding: String
+    headers: MultiDict
+    args: MultiDict
+    base_url: String
+    content_type: String
+    content: MultiDict
+    cookies: MultiDict
+    data: MultiDict
+    get_data()
+    application()
+    get_json()
+    get_host()
+}
+
+abstract Resource {
+    endpoint: String
+    method: String
+    request_args: []List
+    dispatch()
+    before_request()
+    after_request()
+    check_middleware()
+    get()
+    post()
     delete()
-    get_remainder()
+    put()
+    get_args()
 }
 
-enum RecordType {
-    INCOME
-    OUTCOME
+class DashboardResource {
+    request: Request
+    current_app: FlaskApp
+    get()
 }
 
-class Record {
-    name: String
-    description: String
-    amount: Float
-    type: RecordType
+class CategoriesResoure {
+    request: Request
+    current_app: FlaskApp
+    get()
+    post()
 }
 
-Category "1" <-- "*" Record
-User "1" <-left- "*" Category
-User "1" <-- "*" Record
-Record o-left- RecordType
+class CategoryResoure {
+    request: Request
+    current_app: FlaskApp
+    get()
+    patch()
+    delete()
+}
+
+class RecordsResource {
+    request: Request
+    current_app: FlaskApp
+    get()
+    post()
+}
+
+class RecordResource {
+    request: Request
+    current_app: FlaskApp
+    get()
+    patch()
+    delete()
+}
+
+class AuthSessionsResource {
+    request: Request
+    current_app: FlaskApp
+    get()
+    post()
+    patch()
+    delete()
+}
+
+
+}
+
+Resource ..> SqlAlchemySession
+
+DashboardResource ..> Request
+DashboardResource --|> Resource
+CategoryResoure --|> Resource
+RecordResource --|> Resource
+RecordsResource --|> Resource
+CategoriesResoure --|> Resource
+CategoryResoure ..> Request
+RecordResource ..> Request
+RecordsResource ..> Request
+AuthSessionsResource ..> Request
+SqlAlchemySession ..> "DB Models" 
 
 @enduml

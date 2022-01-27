@@ -6,9 +6,9 @@ rectangle Application {
     User --> (Manage categories)
     (Manage categories) .> (Authentication) : include
     (Add category) .> (Manage categories) : extends
-    (Manage categories) <.. (Edit expense) : extends
+    (Manage categories) <.. (Edit category) : extends
     (Add category) ..> (Enter category info) : include
-    (Edit expense) .> (Enter category info) : include
+    (Edit category) .> (Enter category info) : include
     User --> (Show planning)
 }
 
