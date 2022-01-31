@@ -1,0 +1,16 @@
+@startuml "Manage categories"
+
+left to right direction
+actor User
+rectangle Application {
+    User --> (Manage categories)
+    (Manage categories) .> (Authentication) : include
+    (Add category) .> (Manage categories) : extends
+    (Manage categories) <.. (Edit category) : extends
+    (Add category) ..> (Enter category info) : include
+    (Edit category) .> (Enter category info) : include
+    User --> (Show planning)
+}
+
+
+@enduml

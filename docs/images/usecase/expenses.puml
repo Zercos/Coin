@@ -1,0 +1,16 @@
+@startuml "Add record"
+
+left to right direction
+actor User
+rectangle Application {
+    User --> (Records history)
+    (Records history) .> (Authentication) : include
+    (Add record) .> (Records history) : extends
+    (Records history) <.. (Organize Records) : extends
+    (Select category) .> (Add record) : include
+    (Manage categories) .> (Select category) : extends
+    (Filter by category) .> (Organize Records) : extends
+    (Records history) <.. (Edit record) : extends
+}
+
+@enduml

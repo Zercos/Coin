@@ -1,0 +1,13 @@
+@startuml "Login"
+
+left to right direction
+skinparam packageStyle rectangle
+actor User
+rectangle Application {
+    User --> (Log in)
+    (Change password) .> (Log in) : extends
+    (Registration) .up.> (Log in) : extends
+    (Confirm email address) .> (Change password) : include
+}
+
+@enduml
