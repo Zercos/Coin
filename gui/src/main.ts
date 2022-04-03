@@ -1,11 +1,14 @@
 import { createApp } from 'vue'
-import App from './App.vue'
-import './registerServiceWorker'
-import router from './router'
-import store from './store'
-import 'materialize-css/dist/js/materialize.min'
+import { createPinia } from 'pinia'
+import ElementPlus from 'element-plus'
 
-createApp(App)
-  .use(store)
-  .use(router)
-  .mount('#app')
+import App from './App.vue'
+import router from './router'
+
+const app = createApp(App)
+
+app.use(createPinia())
+app.use(ElementPlus)
+app.use(router)
+
+app.mount('#app')

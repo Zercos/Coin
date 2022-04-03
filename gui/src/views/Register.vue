@@ -72,7 +72,7 @@
   </form>
 </template>
 
-<script>
+<script lang="ts">
 import { required, email, minLength } from '@vuelidate/validators'
 import { defineComponent } from 'vue'
 import useVuelidate from '@vuelidate/core'

@@ -1,5 +1,5 @@
 <template>
-  <img class="responsive-img" src="@/assets/logo.png" alt="" style="display: block; margin: 0 auto;">
+  <img class="responsive-img" src="@/assets/logo.png" alt style="display: block; margin: 0 auto;" />
   <form class="card" style="max-width: 400px; width: 100%" @submit.prevent="submitHandler">
     <div class="card-content">
       <span class="card-title" style="text-align: center">Login</span>
@@ -7,7 +7,7 @@
         <input
           id="email"
           type="text"
-          :class="{invalid: (v$.email.$dirty && !v$.email.required) || (v$.email.$dirty && !v$.email.email)}"
+          :class="{ invalid: (v$.email.$dirty && !v$.email.required) || (v$.email.$dirty && !v$.email.email) }"
           v-model.trim="email"
         />
         <label for="email">Email</label>
@@ -24,7 +24,7 @@
         <input
           id="password"
           type="password"
-          :class="{invalid: (v$.password.$dirty && !v$.password.required) || (v$.password.$dirty && !v$.password.minLength)}"
+          :class="{ invalid: (v$.password.$dirty && !v$.password.required) || (v$.password.$dirty && !v$.password.minLength) }"
           v-model="password"
         />
         <label for="password">Password</label>
@@ -35,7 +35,7 @@
         <small
           class="helper-text invalid"
           v-else-if="v$.password.$dirty && !v$.password.minLength"
-        >Password lenght can't be less then {{v$.password.$params.minLength.min}}</small>
+        >Password lenght can't be less then {{ v$.password.$params.minLength.min }}</small>
       </div>
     </div>
     <div class="card-action">
@@ -54,13 +54,13 @@
   </form>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue'
 import useVuelidate from '@vuelidate/core'
 import { required, email, minLength } from '@vuelidate/validators'
 export default defineComponent({
   name: 'Login',
-  setup () {
+  setup() {
     return { v$: useVuelidate() }
   },
   data: () => ({
@@ -71,13 +71,13 @@ export default defineComponent({
     email: { email, required },
     password: { required, minLength: minLength(6) }
   },
-  mounted () {
+  mounted() {
     if (this.$route.query.message) {
       this.$message(this.$route.query.message)
     }
   },
   methods: {
-    async submitHandler () {
+    async submitHandler() {
       if (this.v$.$invalid) {
         this.v$.$touch()
         return
@@ -89,8 +89,8 @@ export default defineComponent({
       try {
         await this.$store.dispatch('login', formData)
         this.$router.push('/')
-      // eslint-disable-next-line no-empty
-      } catch (e) {}
+        // eslint-disable-next-line no-empty
+      } catch (e) { }
     }
   }
 })

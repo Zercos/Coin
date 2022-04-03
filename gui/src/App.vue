@@ -1,34 +1,26 @@
+<script setup lang="ts">
+import { RouterLink, RouterView } from 'vue-router'
+import { computed } from 'vue'
+
+import Layout from '@/components/layout/Layout.vue'
+import AuthLayout from '@/components/layout/AuthLayout.vue'
+import { useAuthStore } from './stores/auth'
+
+const authStore = useAuthStore()
+
+const isLoggedIn = computed(() => authStore.isLoggedIn)
+const layoutView = computed(() => isLoggedIn.value ? 'AuthLayout' : 'Layout' )
+
+</script>
+
 <template>
-  <component :is="layout">
-    <router-view />
+  <component :is="layoutView">
+    <RouterView />
   </component>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
-import AuthLayout from '@/layouts/AuthLayout'
-import Layout from '@/layouts/Layout'
-
-export default defineComponent({
-  components: {
-    AuthLayout,
-    Layout
-  },
-  computed: {
-    layout () {
-      return this.$store.getters.isLoggedIn ? 'layout' : 'auth-layout'
-    }
-  },
-  watch: {
-    '$route' (to, from) {
-      document.title = to.meta.title || 'Your Coin'
-    }
-  }
-})
-</script>
-
-
 <style>
-@import "~materialize-css/dist/css/materialize.min.css";
+@import "materialize-css/dist/css/materialize.min.css";
+@import "element-plus/dist/index.css";
 @import "assets/index.css";
 </style>
