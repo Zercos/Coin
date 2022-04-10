@@ -1,10 +1,10 @@
 <template>
-  <div class="app-main-layout">
-    <!-- <navbar @hide-navbar="sidebarIsOpen = !sidebarIsOpen" />
-    <sidebar v-model="sidebarIsOpen" /> -->
+  <div class="app-main-layout" v-loading.fullscreen.lock=loading>
+    <navbar @toggle="sidebarIsOpen = !sidebarIsOpen" />
+    <!-- <sidebar v-model="sidebarIsOpen" /> -->
 
     <main class="app-content" :class="{full: !sidebarIsOpen}">
-      <div class="app-page" v-loading.fullscreen.lock=loading>
+      <div class="app-page">
           <router-view />
       </div>
     </main>
@@ -19,9 +19,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import Navbar from '@/components/layout/Navbar.vue'
 
 const loading = ref(true)
-const sidebarIsOpen = false
+const sidebarIsOpen = ref(true)
 
 setTimeout(() => {
   loading.value = false

@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import ElementPlus from 'element-plus'
+import 'materialize-css/dist/js/materialize.min.js'
 
 import App from './App.vue'
 import router from './router'

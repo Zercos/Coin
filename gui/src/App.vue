@@ -1,21 +1,19 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
 import { computed } from 'vue'
 
-import Layout from '@/components/layout/Layout.vue'
-import AuthLayout from '@/components/layout/AuthLayout.vue'
+import NotLoggedInLayout from '@/components/layout/NotLoggedInLayout.vue'
+import LoggedInLayout from '@/components/layout/LoggedInLayout.vue'
 import { useAuthStore } from './stores/auth'
 
 const authStore = useAuthStore()
 
 const isLoggedIn = computed(() => authStore.isLoggedIn)
-const layoutView = computed(() => isLoggedIn.value ? 'AuthLayout' : 'Layout' )
 
 </script>
 
 <template>
-  <component :is="layoutView">
-    <RouterView />
+  <component :is="isLoggedIn ? LoggedInLayout : NotLoggedInLayout">
+    <router-view />
   </component>
 </template>
 

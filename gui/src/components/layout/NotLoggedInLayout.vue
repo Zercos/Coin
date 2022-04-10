@@ -1,5 +1,5 @@
 <template>
-  <div class="cyan darken-4 auth-layout">
+  <div class="blue-grey lighten-4 not-logged-layout">
     <router-view />
   </div>
 </template>

@@ -9,6 +9,7 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@types/materialize-css": "^1.0.11",
     "@types/vuelidate": "^0.7.15",
     "@vuelidate/core": "^2.0.0-alpha.40",
     "@vuelidate/validators": "^2.0.0-alpha.28",
@@ -42,6 +43,7 @@
     "semi": false,
     "tabWidth": 2,
     "singleQuote": true,
-    "trailingComma": "es5"
+    "trailingComma": "es5",
+    "printWidth": 120
   }
 }

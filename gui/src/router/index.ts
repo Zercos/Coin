@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
+import { useAuthStore } from '@/stores/auth'
 import HomeView from '@/views/HomeView.vue'
 import Login from '@/views/Login.vue'
 import Register from '@/views/Register.vue'
@@ -27,6 +29,15 @@ const router = createRouter({
       component: () => import('../views/About.vue'),
     },
   ],
+})
+
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore()
+  if (!authStore.isLoggedIn && ['Login', 'Register'].includes(to.name!.toString())) {
+    next('/login')
+  } else {
+    next()
+  }
 })
 
 export default router

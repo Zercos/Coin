@@ -6,8 +6,18 @@ export const useAuthStore = defineStore('auth', {
     jwt: localStorage.getItem('jwt') as JwtPayload | null
   }),
   getters: {
-    isLoggedIn: (state) => !!state.jwt
+    isLoggedIn: (state) => !!state.jwt,
+    userName: (state) => 'User name',
   },
   actions: {
-  }
+    async login(email: string, password: string) {
+      console.log({ email, password })
+    },
+    async register(formData: any) {
+      console.log(`Register ${formData}`)
+    },
+    async logout(){
+      console.log('Logout user')
+    }
+  },
 })
