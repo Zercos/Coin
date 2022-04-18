@@ -1,42 +1,40 @@
-import store from '@/store'
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import Home from '../views/Home.vue'
-import Login from '../views/Login.vue'
-import Register from '../views/Register.vue'
+import { createRouter, createWebHistory } from 'vue-router'
 
-const routes: Array<RouteRecordRaw> = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: Login
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    component: Register
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
+import { useAuthStore } from '@/stores/auth'
+import HomeView from '@/views/HomeView.vue'
+import Login from '@/views/Login.vue'
+import Register from '@/views/Register.vue'
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: '/',
+      name: 'Home',
+      component: HomeView,
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login,
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register,
+    },
+    {
+      path: '/about',
+      name: 'About',
+      component: () => import('../views/About.vue'),
+    },
+  ],
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'Login' && !store.getters.isLoggedIn && to.name !== 'Register') {
+  const authStore = useAuthStore()
+  if (!authStore.isLoggedIn && ['Login', 'Register'].includes(to.name!.toString())) {
     next('/login')
-  } else if (to.name == 'Login' && store.getters.isLoggedIn) {
-    next({name: 'Home'})
   } else {
     next()
   }
