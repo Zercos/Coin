@@ -12,6 +12,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async login(email: string, password: string) {
       console.log({ email, password })
+      this.jwt = {iss: 'a'}
     },
     async register(formData: any) {
       console.log(`Register ${formData}`)

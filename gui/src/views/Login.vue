@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import useVuelidate from '@vuelidate/core'
 import { required, email as emailVal, minLength } from '@vuelidate/validators'
 import { ElNotification } from 'element-plus'
@@ -43,6 +43,7 @@ import { ElNotification } from 'element-plus'
 import { useAuthStore } from '@/stores/auth'
 
 const route = useRoute()
+const router = useRouter()
 const authStore = useAuthStore()
 
 // Hooks
@@ -66,6 +67,7 @@ async function submitHandler() {
   }
   try {
     await authStore.login(email.value, password.value)
+    await router.push({name: 'Home'})
   } catch (e) {
     ElNotification({ type: 'error', message: `Not logged in, Error: ${e}` })
   }
