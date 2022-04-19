@@ -9,6 +9,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = "secret_for_test_environment"
     BCRYPT_LOG_ROUNDS = 13
+    TTL_AUTH_TOKEN = 3600 * 20
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         'DATABASE_URL', 'postgresql://postgres:postgres@localhost/postgres')
 

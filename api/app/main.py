@@ -1,11 +1,14 @@
+import logging
 import os
 
 from flask import Flask
 
-from app.resources import init_resources
+from app import models  # noqa: F401
 from app.db import db, migrate
 from app.extensions import bcrypt
-from app import models  # noqa: F401
+from app.resources import init_resources
+
+logging.basicConfig(level=logging.DEBUG)
 
 
 def create_app():

@@ -13,6 +13,8 @@ orjson = "*"
 alembic = "*"
 flask-migrate = "*"
 flask-bcrypt = "*"
+requests = "*"
+pyjwt = "*"
 
 [dev-packages]
 autopep8 = "*"
@@ -21,6 +23,7 @@ isort = "*"
 pre-commit = "*"
 pytest = "*"
 pytest-faker = "*"
+flask-shell-ipython = "*"
 
 [requires]
 python_version = "3.10"
