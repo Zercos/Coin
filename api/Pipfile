@@ -5,10 +5,25 @@ name = "pypi"
 
 [packages]
 flask = "*"
-flask-restful = "*"
 flask-sqlalchemy = "*"
+python-dotenv = "*"
+psycopg2 = "*"
+flask-restful = "*"
+orjson = "*"
+alembic = "*"
+flask-migrate = "*"
+flask-bcrypt = "*"
+requests = "*"
+pyjwt = "*"
 
 [dev-packages]
+autopep8 = "*"
+flake8 = "*"
+isort = "*"
+pre-commit = "*"
+pytest = "*"
+pytest-faker = "*"
+flask-shell-ipython = "*"
 
 [requires]
-python_version = "3.9"
+python_version = "3.10"
