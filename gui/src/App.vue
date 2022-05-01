@@ -3,7 +3,7 @@ import { computed } from 'vue'
 
 import NotLoggedInLayout from '@/components/layout/NotLoggedInLayout.vue'
 import LoggedInLayout from '@/components/layout/LoggedInLayout.vue'
-import { useAuthStore } from './stores/auth'
+import useAuthStore from './stores/auth'
 
 const authStore = useAuthStore()
 

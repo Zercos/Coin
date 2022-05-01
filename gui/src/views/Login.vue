@@ -40,7 +40,7 @@ import useVuelidate from '@vuelidate/core'
 import { required, email as emailVal, minLength } from '@vuelidate/validators'
 import { ElNotification } from 'element-plus'
 
-import { useAuthStore } from '@/stores/auth'
+import useAuthStore from '@/stores/auth'
 
 const route = useRoute()
 const router = useRouter()

@@ -18,3 +18,7 @@ class User(db.Model, CreateModifyMixin):
         self.last_name = last_name
         self.password_hash = bcrypt.generate_password_hash(
             password, current_app.config.get('BCRYPT_LOG_ROUNDS')).decode()
+
+    @property
+    def full_name(self) -> str:
+        return f'{self.first_name} {self.last_name}'

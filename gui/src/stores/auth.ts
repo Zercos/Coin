@@ -1,24 +1,70 @@
 import { defineStore } from 'pinia'
-import type { JwtPayload } from 'jwt-decode'
+import type { JwtPayload } from '@/types'
+import sessionApi from '@/api/sessions'
+import { decodeAuthToken, fmtApiError } from '@/utils'
+import { ElMessageBox } from 'element-plus'
 
-export const useAuthStore = defineStore('auth', {
+import router from '@/router'
+
+const useAuthStore = defineStore('auth', {
   state: () => ({
-    jwt: localStorage.getItem('jwt') as JwtPayload | null
+    authToken: localStorage.getItem('authToken') as JwtPayload | null,
+    tokenPayload: decodeAuthToken(localStorage.getItem('authToken')),
   }),
   getters: {
-    isLoggedIn: (state) => !!state.jwt,
-    userName: (state) => 'User name',
+    isLoggedIn: (state) => !!state.authToken,
+    sessionId: (state) => state.tokenPayload.jti,
+    userName: (state) => state.tokenPayload.ufn,
   },
   actions: {
+    removeUserData() {
+      localStorage.removeItem('authToken')
+      this.$patch({ authToken: null, tokenPayload: {} })
+    },
     async login(email: string, password: string) {
-      console.log({ email, password })
-      this.jwt = {iss: 'a'}
+      console.debug('Authentication the user ' + email)
+      sessionApi
+        .login(email, password)
+        .then((response) => {
+          if (response.status !== 200) {
+            ElMessageBox.alert(fmtApiError(response).message, 'Login error')
+          } else {
+            localStorage.setItem('authToken', response.data.auth_token)
+            this.$patch({
+              authToken: response.data.auth_token,
+              tokenPayload: decodeAuthToken(response.data.auth_token),
+            })
+            router.push('/')
+          }
+        })
+        .catch((error) => {
+          ElMessageBox.alert(fmtApiError(error).message, 'Login error')
+        })
     },
     async register(formData: any) {
-      console.log(`Register ${formData}`)
+      console.debug('Register the user')
+      sessionApi
+        .register(formData)
+        .then((response) => {
+          if (response.status !== 200) {
+            ElMessageBox.alert(fmtApiError(response).message, 'Registration error')
+          } else {
+            localStorage.setItem('authToken', response.data.auth_token)
+            this.$patch({
+              authToken: response.data.auth_token,
+              tokenPayload: decodeAuthToken(response.data.auth_token),
+            })
+            router.push('/')
+          }
+        })
+        .catch((error) => {
+          ElMessageBox.alert(fmtApiError(error).message, 'Registration error', { dangerouslyUseHTMLString: true })
+        })
     },
-    async logout(){
-      console.log('Logout user')
-    }
+    async logout() {
+      this.removeUserData()
+    },
   },
 })
+
+export default useAuthStore

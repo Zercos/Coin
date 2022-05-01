@@ -33,7 +33,7 @@
   height: 100vh
 }
 
-.app-sidenav {
+.main-sidebar {
   padding-top: 5px;
   position: absolute;
   top: 64px;
@@ -44,7 +44,7 @@
   height: auto !important
 }
 
-.app-sidenav.open {
+.main-sidebar.open {
   -webkit-transform: translateX(0);
   transform: translateX(0)
 }

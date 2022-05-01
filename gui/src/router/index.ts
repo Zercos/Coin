@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import { useAuthStore } from '@/stores/auth'
+import useAuthStore from '@/stores/auth'
 import HomeView from '@/views/HomeView.vue'
 import Login from '@/views/Login.vue'
 
@@ -39,6 +39,8 @@ router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
   if (!authStore.isLoggedIn && !['Login', 'Register'].includes(to.name!.toString())) {
     next('/login')
+  } else if (authStore.isLoggedIn && ['Login', 'Register'].includes(to.name!.toString())) {
+    next('/')
   } else {
     next()
   }
