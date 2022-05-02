@@ -8,8 +8,8 @@ import router from '@/router'
 
 const useAuthStore = defineStore('auth', {
   state: () => ({
-    authToken: localStorage.getItem('authToken') as JwtPayload | null,
-    tokenPayload: decodeAuthToken(localStorage.getItem('authToken')),
+    authToken: localStorage.getItem('authToken') as string | null,
+    tokenPayload: decodeAuthToken(localStorage.getItem('authToken')) as JwtPayload,
   }),
   getters: {
     isLoggedIn: (state) => !!state.authToken,

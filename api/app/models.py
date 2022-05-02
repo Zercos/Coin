@@ -1,6 +1,7 @@
-from app.db import db, CreateModifyMixin
-from app.extensions import bcrypt
 from flask import current_app
+
+from app.db import CreateModifyMixin, UserCreateModifyMixin, db
+from app.extensions import bcrypt
 
 
 class User(db.Model, CreateModifyMixin):
@@ -22,3 +23,16 @@ class User(db.Model, CreateModifyMixin):
     @property
     def full_name(self) -> str:
         return f'{self.first_name} {self.last_name}'
+
+
+class Category(db.Model, UserCreateModifyMixin):
+    __tablename__ = 'categories'
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    name = db.Column(db.Unicode, nullable=False)
+    limit = db.Column(db.Integer, nullable=False)
+    description = db.Column(db.Unicode)
+    active = db.Column(db.Boolean, default=True)
+    user_id = db.Column(db.Integer, db.ForeignKey(User.id))
+
+    user = db.relationship(User, lazy=True)

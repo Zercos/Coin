@@ -38,7 +38,7 @@ function trnsReq(data, headers): any {
 function addAuthorizationHeader(config: AxiosRequestConfig) {
   const authStore = useAuthStore()
   if (authStore.authToken) {
-    config!.headers!.common['Authorization'] = 'Bearer ' + authStore.authToken
+    config!.headers!.common['Authorization'] = 'Bearer ' + window.btoa(authStore.authToken)
   }
   return config
 }
@@ -56,7 +56,7 @@ function redirectOn401(response: AxiosResponse) {
 
 export const API = axios.create({
   baseURL: import.meta.env.VITE_API_URL as string,
-  timeout: 1000,
+  timeout: 30000,
 })
 
 API.defaults.transformResponse = [trsnRes]

@@ -6,7 +6,7 @@ from typing import NamedTuple
 from uuid import uuid4
 
 import jwt
-from flask import current_app, request, g
+from flask import current_app, g, request
 from flask_restful import Resource, abort
 
 log = logging.getLogger(__name__)
@@ -25,6 +25,10 @@ def create_auth_token(user_id: int, login: str, user_name: str):
     return jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm='HS256')
 
 
+def get_user_id():
+    return g.user_auth.user_id
+
+
 class AuthUser(NamedTuple):
     email: str
     session_id: str
@@ -39,7 +43,7 @@ def validate_jwt(func):
             abort(401)
         try:
             decoded_token = base64.b64decode(token_header.split()[1]).decode('utf-8')
-            g.token_data = jwt.decode(decoded_token, current_app.config['SECRET_KEY'])
+            g.token_data = jwt.decode(decoded_token, current_app.config['SECRET_KEY'], algorithms=['HS256'])
         except Exception:
             log.exception('Auth token decode error: %r', token_header)
             abort(401)

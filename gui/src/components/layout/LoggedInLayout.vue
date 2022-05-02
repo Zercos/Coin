@@ -27,5 +27,5 @@ const sidebarIsOpen = ref(true)
 
 setTimeout(() => {
   loading.value = false
-}, 3000)
+}, 1000)
 </script>
