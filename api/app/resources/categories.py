@@ -12,6 +12,7 @@ class CategoriesResource(AuthenticatedResource):
     def get(self):
         category_service = CategoryService()
         category_field = {
+            'id': fields.Integer,
             'name': fields.String,
             'description': fields.String,
             'limit': fields.Integer,
@@ -21,3 +22,10 @@ class CategoriesResource(AuthenticatedResource):
 
         categories = category_service.get_categories_by_filters(user_id=get_user_id(), active=True)
         return marshal(categories, category_field), 200
+
+
+class CategoryResource(AuthenticatedResource):
+    def put(self, category_id):
+        category_service = CategoryService()
+        category_id = category_service.modify_category(category_id)
+        return '', 200

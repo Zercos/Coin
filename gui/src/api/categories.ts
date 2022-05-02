@@ -6,5 +6,8 @@ export default {
   },
   getCategories() {
     return API.get('categories')
+  },
+  modifyCategory(categoryId: number, formData) {
+    return API.put('category/' + categoryId, formData)
   }
 }

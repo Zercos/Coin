@@ -36,3 +36,28 @@ class CategoryService:
         if active is not None:
             q = q.filter_by(active=active)
         return q.all()
+
+    def modify_category(self, category_id):
+        log.info('Modifying category %s', category_id)
+        parser = reqparse.RequestParser(bundle_errors=True)
+        parser.add_argument('name', required=True, help='Category name cannot be blank')
+        parser.add_argument('limit', required=True, help='Category limit cannot be blank', type=int)
+        parser.add_argument('description', required=True)
+        parser.add_argument('active', required=True, type=bool)
+
+        args = parser.parse_args(strict=True)
+        category = Category.query.get(category_id)
+        if not category:
+            log.info('Category with provided id %s not exists', category_id)
+            abort(404, 'Category with provided id not exists')
+        if category.user_id != get_user_id():
+            log.info('Category %s is not owned by user %s', category_id, get_user_id())
+            abort(403, 'Category is not owned by current user')
+        log.info('Modify with args %r', args)
+        with db.transaction():
+            category.name = args['name']
+            category.limit = args['limit']
+            category.description = args['description']
+            category.active = args['active']
+            db.session.flush()
+        log.info('Modified category %s', category_id)

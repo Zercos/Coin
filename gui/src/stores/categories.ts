@@ -19,6 +19,10 @@ export const useCategoriesStore = defineStore('categories', {
         if ([200, 201].includes(response.status)) Promise.reject()
       })
     },
-    modifyCategory(categoryId, formData) {}
+    modifyCategory(categoryId, formData): Promise<void> {
+      return categoriesAPI.modifyCategory(categoryId, formData).then(response => {
+        if (response.status !== 200) Promise.reject()
+      })
+    }
   }
 })

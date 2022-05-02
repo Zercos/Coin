@@ -5,7 +5,7 @@ from flask_restful import Api
 from .auth import AuthSessionsResource, RegisterResource, UserResource
 from .info import AppInfo
 
-from.categories import CategoriesResource
+from.categories import CategoriesResource, CategoryResource
 
 api = Api(prefix='/v1')
 
@@ -16,6 +16,7 @@ def init_resources(app):
     api.add_resource(AuthSessionsResource, '/login')
     api.add_resource(UserResource, '/user/<int:user_id>')
     api.add_resource(CategoriesResource, '/categories')
+    api.add_resource(CategoryResource, '/category/<int:category_id>')
 
     api.init_app(app)
     return app
