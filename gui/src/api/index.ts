@@ -43,15 +43,15 @@ function addAuthorizationHeader(config: AxiosRequestConfig) {
   return config
 }
 
-function redirectOn401(response: AxiosResponse) {
-  if (response.status === 401){
+function redirectOn401(error) {
+  if (error?.response?.status === 401){
     const authStore = useAuthStore()
     authStore.removeUserData()
     const router = useRouter()
     router.push({ name: 'Login' })
-    return Promise.reject(response)
+    return Promise.reject(error)
   }
-  return response
+  return error
 }
 
 export const API = axios.create({
@@ -62,4 +62,4 @@ export const API = axios.create({
 API.defaults.transformResponse = [trsnRes]
 API.defaults.transformRequest = [trnsReq]
 API.interceptors.request.use(addAuthorizationHeader)
-API.interceptors.response.use(redirectOn401)
+API.interceptors.response.use(resp => (resp), redirectOn401)

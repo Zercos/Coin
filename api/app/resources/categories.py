@@ -20,7 +20,7 @@ class CategoriesResource(AuthenticatedResource):
             'creation_date': fields.DateTime('iso8601')
         }
 
-        categories = category_service.get_categories_by_filters(user_id=get_user_id(), active=True)
+        categories = category_service.get_categories_by_filters(user_id=get_user_id())
         return marshal(categories, category_field), 200
 
 

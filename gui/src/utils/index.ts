@@ -38,7 +38,6 @@ export function fmtApiError(error) {
       })
     }
   }
-
   if (error.response) {
     const response = error.response
     const data = response.data || { errors: null, message: null }
@@ -53,6 +52,8 @@ export function fmtApiError(error) {
       }
     } else if (_.isObject(data.message)) {
       for (const field in data.message) { errors.push('<li>' + data.message[field] + '</li>') }
+    } else if (_.isString(data.message)) {
+      message = data.message
     }
     if (errors.length) {
       message = '<p>' + message + '</p>'

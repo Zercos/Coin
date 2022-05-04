@@ -37,6 +37,11 @@ const router = createRouter({
       name: 'Categories',
       component: () => import('../views/CategoriesView.vue'),
     },
+    {
+      path: '/new-record',
+      name: 'NewRecord',
+      component: () => import('../views/NewRecord.vue'),
+    },
   ],
 })
 

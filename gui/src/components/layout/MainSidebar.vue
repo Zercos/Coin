@@ -24,5 +24,6 @@ const props = defineProps(['value'])
 const links = [
   { name: 'Home', route: '/' },
   { name: 'Categories', route: '/categories' },
+  { name: 'New record', route: '/new-record' },
 ]
 </script>

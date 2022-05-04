@@ -36,3 +36,18 @@ class Category(db.Model, UserCreateModifyMixin):
     user_id = db.Column(db.Integer, db.ForeignKey(User.id))
 
     user = db.relationship(User, lazy=True)
+
+
+class Record(db.Model, UserCreateModifyMixin):
+    __tablename__ = 'records'
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    amount = db.Column(db.Numeric, nullable=False)
+    description = db.Column(db.Unicode, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey(User.id))
+    type = db.Column(db.Unicode, nullable=False)
+    category_id = db.Column(db.Integer, db.ForeignKey(Category.id))
+    removed = db.Column(db.Boolean, default=False)
+
+    user = db.relationship(User, lazy=True)
+    category = db.relationship(Category, lazy=True)

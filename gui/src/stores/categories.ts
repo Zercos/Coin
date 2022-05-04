@@ -1,11 +1,22 @@
 import { defineStore } from 'pinia'
+import type { Moment } from 'moment'
 import categoriesAPI from '@/api/categories'
+
+interface ICategory {
+  id: number
+  name: string
+  limit: number
+  description?: string
+  creation_date: Moment
+  active: boolean
+}
 
 export const useCategoriesStore = defineStore('categories', {
   state: () => ({
-    categories: []
+    categories: [] as ICategory[]
   }),
   getters: {
+    activeCategories: (state) => (state.categories.filter(cat => cat['active']  ))
   },
   actions: {
     fetchCategories(): Promise<void> {
