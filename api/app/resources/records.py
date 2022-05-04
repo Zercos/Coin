@@ -17,6 +17,7 @@ class RecordsResource(AuthenticatedResource):
             'description': fields.String,
             'type': fields.String,
             'category_id': fields.Integer,
+            'category': fields.String(attribute='category.name'),
             'creation_date': fields.DateTime('iso8601'),
             'removed': fields.Boolean,
         }

@@ -18,12 +18,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import Navbar from '@/components/layout/Navbar.vue'
 import MainSidebar from './MainSidebar.vue'
 
 const loading = ref(true)
 const sidebarIsOpen = ref(true)
+if (screen.width < 600) sidebarIsOpen.value = false
+onMounted(() => {
+  if (screen.width < 600) sidebarIsOpen.value = false
+})
 
 setTimeout(() => {
   loading.value = false

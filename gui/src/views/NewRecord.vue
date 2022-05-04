@@ -82,7 +82,6 @@ const v$ = useVuelidate(rules, recordForm)
 
 onMounted(() => {
   fetchCategories()
-  recordsStore.fetchRecords()
   setTimeout(() => {
     M.updateTextFields()
   }, 100)
