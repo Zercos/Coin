@@ -102,6 +102,10 @@ function handleSubmit() {
   recordsStore.createRecord(formData).then(() => {
       loading.value = false
       ElMessage({ message: 'Record was created successfully', type: 'success' })
+      recordForm.amount = 0
+      recordForm.category = null
+      recordForm.description = null
+      recordForm.type = 'outcome'
     }).catch((error) => {
       loading.value = false
       ElMessageBox.alert(fmtApiError(error).message, 'Record creation error')

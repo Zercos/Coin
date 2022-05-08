@@ -47,7 +47,7 @@ const useAuthStore = defineStore('auth', {
         .register(formData)
         .then((response) => {
           if (response.status !== 200) {
-            ElMessageBox.alert(fmtApiError(response).message, 'Registration error')
+            ElMessageBox.alert(fmtApiError(response).message, 'Registration error', { dangerouslyUseHTMLString: true })
           } else {
             localStorage.setItem('authToken', response.data.auth_token)
             this.$patch({

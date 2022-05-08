@@ -3,7 +3,7 @@ import logging
 from app.db import db
 from app.models import Record, Category
 from flask import abort
-from flask_restful import reqparse
+from app.schemas import EditRecordSchema, NewRecordSchema, parse_args
 from app.util.auth_tools import get_user_id
 
 log = logging.getLogger(__name__)
@@ -11,13 +11,7 @@ log = logging.getLogger(__name__)
 
 class RecordService:
     def create_record(self) -> str:
-        parser = reqparse.RequestParser(bundle_errors=True)
-        parser.add_argument('description', required=True, help='description cannot be blank')
-        parser.add_argument('amount', required=True, help='Category limit cannot be blank', type=float)
-        parser.add_argument('type', required=True, help='Type cannot be blank')
-        parser.add_argument('category_id', required=True, help='Category cannot be blank', type=int)
-
-        args = parser.parse_args(strict=True)
+        args = parse_args(NewRecordSchema)
         category = Category.query.get(args['category_id'])
         if not category:
             log.info('Category with provided id %s is not exists', args['category_id'])
@@ -34,13 +28,7 @@ class RecordService:
 
     def modify_record(self, record_id):
         log.info('Modifying record %s', record_id)
-        parser = reqparse.RequestParser(bundle_errors=True)
-        parser.add_argument('description', required=True, help='description cannot be blank')
-        parser.add_argument('amount', required=True, help='Category limit cannot be blank', type=float)
-        parser.add_argument('type', required=True, help='Type cannot be blank')
-        parser.add_argument('category_id', required=True, help='Category cannot be blank', type=int)
-
-        args = parser.parse_args(strict=True)
+        args = parse_args(EditRecordSchema)
         record = Record.query.get(record_id)
         if not record:
             log.info('Record with provided id %s not exists', record_id)

@@ -61,10 +61,10 @@ import useAuthStore from '@/stores/auth'
 const authStore = useAuthStore()
 const router = useRouter()
 
-const email = ref('')
-const password = ref('')
-const firstName = ref('')
-const lastName = ref('')
+const email = ref()
+const password = ref()
+const firstName = ref()
+const lastName = ref()
 const agree = ref(false)
 
 const rules = {

@@ -1,24 +1,19 @@
 import logging
 
 from app.db import db
+from app.extensions import bcrypt
 from app.models import User
+from app.schemas import NewUserSchema, parse_args
 from app.util.auth_tools import create_auth_token
 from flask import abort
 from flask_restful import reqparse
-from app.extensions import bcrypt
 
 log = logging.getLogger(__name__)
 
 
 class UserService:
     def create_user(self) -> str:
-        parser = reqparse.RequestParser(bundle_errors=True)
-        parser.add_argument('email', required=True, help='Email cannot be blank')
-        parser.add_argument('first_name', required=True, help='First name cannot be blank')
-        parser.add_argument('last_name', required=True, help='Last name cannot be blank')
-        parser.add_argument('password', required=True, help='Password cannot be blank')
-
-        args = parser.parse_args(strict=True)
+        args = parse_args(NewUserSchema)
         existed_user = User.query.filter_by(email=args['email']).first()
         if existed_user:
             log.info('User with provided email=%s is already exists', args['email'])

@@ -19,8 +19,8 @@
         <div class="input-field switch">
           <label>
             Active
-          <input type="checkbox" id="active" v-model="categoryForm.active">
-          <span class="lever"></span>
+            <input type="checkbox" id="active" v-model="categoryForm.active" />
+            <span class="lever"></span>
           </label>
         </div>
       </form>
@@ -40,9 +40,9 @@ import { reactive, ref, onMounted, nextTick, watch } from 'vue'
 import useVuelidate from '@vuelidate/core'
 import { required, minValue } from '@vuelidate/validators'
 import M from 'materialize-css'
-import { useCategoriesStore } from '@/stores/categories';
-import { ElMessageBox } from 'element-plus';
-import { fmtApiError } from '@/utils';
+import { useCategoriesStore } from '@/stores/categories'
+import { ElMessageBox } from 'element-plus'
+import { fmtApiError } from '@/utils'
 
 const props = defineProps({ modelValue: Boolean, rowData: Object })
 const emit = defineEmits(['update:modelValue', 'categoryUpdated'])
@@ -92,16 +92,18 @@ function submitHandler() {
   }
   loading.value = true
   try {
-    categoriesStore.modifyCategory(props.rowData!.id, formData).then(() => {
-      loading.value = false
-      emit('categoryUpdated')
-    }).catch((error) => {
-      loading.value = false
-      ElMessageBox.alert(fmtApiError(error).message, 'Category update error')
-    })
+    categoriesStore
+      .modifyCategory(props.rowData!.id, formData)
+      .then(() => {
+        loading.value = false
+        emit('categoryUpdated')
+      })
+      .catch((error) => {
+        loading.value = false
+        ElMessageBox.alert(fmtApiError(error).message, 'Category update error')
+      })
   } catch (e) {
     ElMessageBox.alert(`${e}`, 'Error')
   }
-
 }
 </script>

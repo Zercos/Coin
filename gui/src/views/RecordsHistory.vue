@@ -4,6 +4,13 @@
       <h3>Records History</h3>
     </div>
     <el-divider />
+    <RecordEdit
+      v-if="showEditForm"
+      v-model="showEditForm"
+      @record-updated="recordUpdated"
+      :row-data="recordUpdate"
+      :categories="categories"
+    />
     <el-table :data="records" stripe>
       <el-table-column prop="id" label="#" />
       <el-table-column prop="amount" label="Amount" />
@@ -27,18 +34,25 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, onMounted, nextTick } from 'vue'
 import { Refresh } from '@element-plus/icons-vue'
 import { useRecordsStore } from '@/stores/records'
-import { ElMessageBox } from 'element-plus';
-import { fmtApiError } from '@/utils';
+import { ElMessageBox } from 'element-plus'
+import { fmtApiError } from '@/utils'
+import RecordEdit from '@/components/RecordEdit.vue'
+import { useCategoriesStore } from '@/stores/categories';
 
 const recordsStore = useRecordsStore()
+const categoriesStore = useCategoriesStore()
 
 let loading = ref(false)
+let showEditForm = ref(false)
+let recordUpdate = ref({})
 const records = computed(() => recordsStore.records)
+const categories = computed(() => categoriesStore.activeCategories)
 
 onMounted(() => {
+  fetchCategories()
   fetchRecords()
 })
 
@@ -54,5 +68,32 @@ function fetchRecords() {
       ElMessageBox.alert(fmtApiError(error).message, 'Records fetch error')
     })
 }
-function handleEdit(index, row) {}
+
+function fetchCategories() {
+  loading.value = true
+  categoriesStore
+    .fetchCategories()
+    .then(() => {
+      loading.value = false
+    })
+    .catch((error) => {
+      loading.value = false
+      ElMessageBox.alert(fmtApiError(error).message, 'Categories fetch')
+    })
+}
+
+function recordUpdated() {
+  showEditForm.value = false
+  recordUpdate.value = {}
+  fetchRecords()
+}
+
+function handleEdit(index, row) {
+  let rowData = { description: row.description, id: row.id, type: row.type, amount: row.amount, category: row.category_id }
+  recordUpdate.value = rowData
+  nextTick(() => {
+    showEditForm.value = true
+  })
+}
+
 </script>

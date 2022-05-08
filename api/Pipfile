@@ -16,6 +16,8 @@ flask-bcrypt = "*"
 requests = "*"
 pyjwt = "*"
 flask-cors = "*"
+flask-marshmallow = "*"
+marshmallow-sqlalchemy = "*"
 
 [dev-packages]
 autopep8 = "*"
