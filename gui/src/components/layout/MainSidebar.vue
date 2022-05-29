@@ -26,5 +26,6 @@ const links = [
   { name: 'Categories', route: '/categories' },
   { name: 'New record', route: '/new-record' },
   { name: 'History', route: '/history' },
+  { name: 'Planning', route: '/planning' },
 ]
 </script>

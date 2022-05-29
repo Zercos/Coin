@@ -1,5 +1,5 @@
 <template>
-  <div v-loading>
+  <div v-loading="loading">
     <div class="page-title" style="margin-bottom: 0">
       <h3>Records History</h3>
     </div>
@@ -17,9 +17,9 @@
       <el-table-column prop="description" label="Description" />
       <el-table-column prop="type" label="Type">
         <template #default="scope">
-          <el-tag effect="dark" round :type="scope.row.type == 'income' ? 'success' : 'warning'">{{
-            scope.row.type == 'income' ? 'Income' : 'Outcome'
-          }}</el-tag>
+          <el-tag effect="dark" round :type="scope.row.type == 'income' ? 'success' : 'warning'">
+            {{ scope.row.type == 'income' ? 'Income' : 'Outcome' }}
+          </el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="category" label="Category" />
@@ -66,7 +66,7 @@ const currentPage = ref(1)
 const pageSize = 10
 const records = computed(() => recordsStore.records)
 const allRecords = computed(() => _.chunk(records.value, pageSize))
-const currentRecords = computed(() => allRecords.value[currentPage.value-1] || allRecords.value[0])
+const currentRecords = computed(() => allRecords.value[currentPage.value - 1] || allRecords.value[0])
 const categories = computed(() => categoriesStore.activeCategories)
 
 onMounted(() => {

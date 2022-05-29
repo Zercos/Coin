@@ -1,9 +1,24 @@
 import { defineStore } from 'pinia'
+import type { Moment } from 'moment'
 import recordsAPI from '@/api/records'
+
+export interface IRecord {
+  id: number
+  amount: number
+  description: string
+  removed: boolean
+  category_id: number
+  type: string
+  user_id: number
+  creation_date: Moment
+  created_by: number
+  updated_by?: number
+  update_date?: Moment
+}
 
 export const useRecordsStore = defineStore('records', {
   state: () => ({
-    records: []
+    records: [] as IRecord[]
   }),
   getters: {
   },
