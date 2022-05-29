@@ -1,10 +1,11 @@
 import axios from 'axios'
 import moment from 'moment'
 import _ from 'lodash'
+import type { AxiosRequestConfig, AxiosResponse } from 'axios'
+
 import { jsonReviver } from '@/utils/json'
 import { mapObjValuesDeep } from '@/utils'
-import { useRouter } from 'vue-router'
-import type { AxiosRequestConfig, AxiosResponse } from 'axios'
+import router from '@/router'
 
 import useAuthStore from '@/stores/auth'
 
@@ -47,7 +48,6 @@ function redirectOn401(error) {
   if (error?.response?.status === 401){
     const authStore = useAuthStore()
     authStore.removeUserData()
-    const router = useRouter()
     router.push({ name: 'Login' })
     return Promise.reject(error)
   }
