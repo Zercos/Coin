@@ -1,22 +1,14 @@
 <template>
   <div v-loading="loading">
     <div class="page-title">
-      <h3>Planning</h3>
+      <h3>My categories planning</h3>
     </div>
     <p class="center" v-if="!categories.length">
       No active categories
       <router-link to="/categories">Add category</router-link>
     </p>
     <div v-else>
-      <div v-for="cat of categoriesForPlanning" :key="cat.id">
-        <p>
-          <strong>{{ cat.name }}:</strong>
-          {{ cat.spend }} {{ 'Of' }} {{ cat.limit }}
-        </p>
-        <el-tooltip :content="cat.tooltip" placement="bottom">
-          <el-progress :text-inside="true" :stroke-width="26" :percentage="cat.progressPercent" :color="colors" />
-        </el-tooltip>
-      </div>
+      <CategoriesPlanning :categoriesForPlanning="categoriesForPlanning" />
     </div>
   </div>
 </template>
@@ -27,17 +19,13 @@ import { ElMessageBox } from 'element-plus'
 import { useCategoriesStore } from '@/stores/categories'
 import { useRecordsStore } from '@/stores/records'
 import { fmtApiError } from '@/utils'
+import CategoriesPlanning from '@/components/CategoriesPlanning.vue'
 
 let loading = ref(false)
 const categoriesStore = useCategoriesStore()
 const recordsStore = useRecordsStore()
 const records = computed(() => recordsStore.records)
 const categories = computed(() => categoriesStore.activeCategories)
-const colors = [
-  { color: 'green', percentage: 60 },
-  { color: '#e6ca3c', percentage: 95 },
-  { color: 'red', percentage: 100 },
-]
 
 onMounted(() => {
   fetchCategories()

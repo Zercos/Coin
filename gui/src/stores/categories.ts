@@ -1,15 +1,7 @@
 import { defineStore } from 'pinia'
 import type { Moment } from 'moment'
 import categoriesAPI from '@/api/categories'
-
-export interface ICategory {
-  id: number
-  name: string
-  limit: number
-  description?: string
-  creation_date: Moment
-  active: boolean
-}
+import type { ICategory } from '@/types'
 
 export const useCategoriesStore = defineStore('categories', {
   state: () => ({
@@ -34,6 +26,10 @@ export const useCategoriesStore = defineStore('categories', {
       return categoriesAPI.modifyCategory(categoryId, formData).then(response => {
         if (response.status !== 200) Promise.reject()
       })
+    },
+    loadCategories(): Promise<void> {
+      if (this.categories) return Promise.resolve()
+      return this.fetchCategories()
     }
   }
 })

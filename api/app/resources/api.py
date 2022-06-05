@@ -6,7 +6,7 @@ from .auth import AuthSessionsResource, RegisterResource, UserResource
 from .info import AppInfo
 
 from .categories import CategoriesResource, CategoryResource
-from .records import RecordResource, RecordsResource
+from .records import RecordResource, RecordsResource, CurrentBill
 
 api = Api(prefix='/v1')
 
@@ -20,6 +20,7 @@ def init_resources(app):
     api.add_resource(CategoryResource, '/category/<int:category_id>')
     api.add_resource(RecordsResource, '/records')
     api.add_resource(RecordResource, '/record/<int:record_id>')
+    api.add_resource(CurrentBill, '/current-bill')
 
     api.init_app(app)
     return app

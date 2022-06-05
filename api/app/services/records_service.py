@@ -1,10 +1,12 @@
 import logging
+from datetime import timedelta, datetime
 
 from app.db import db
 from app.models import Record, Category
 from flask import abort
 from app.schemas import EditRecordSchema, NewRecordSchema, parse_args
 from app.util.auth_tools import get_user_id
+from sqlalchemy import func
 
 log = logging.getLogger(__name__)
 
@@ -53,3 +55,20 @@ class RecordService:
         if removed is not None:
             q = q.filter_by(removed=removed)
         return q.all()
+
+    def get_current_bill(self, user_id, last_days=30) -> float:
+        q = db.session.query(
+            func.sum(Record.amount).label('amount'),
+            Record.type,
+        ).filter_by(user_id=user_id)
+        if last_days:
+            gt_date = datetime.now() - timedelta(30)
+            q = q.filter(Record.creation_date >= gt_date)
+        q = q.group_by(Record.type)
+        outcome = income = 0.0
+        for r in q.all():
+            if r.type == 'outcome':
+                outcome = r.amount
+            if r.type == 'income':
+                income = r.amount
+        return float(income - outcome)

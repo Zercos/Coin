@@ -31,3 +31,9 @@ class RecordResource(AuthenticatedResource):
         record_service = RecordService()
         record_service.modify_record(record_id)
         return '', 200
+
+
+class CurrentBill(AuthenticatedResource):
+    def get(self):
+        record_service = RecordService()
+        return record_service.get_current_bill(user_id=get_user_id())

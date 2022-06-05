@@ -18,7 +18,8 @@ export interface IRecord {
 
 export const useRecordsStore = defineStore('records', {
   state: () => ({
-    records: [] as IRecord[]
+    records: [] as IRecord[],
+    currentBill: 0 as number,
   }),
   getters: {
   },
@@ -39,6 +40,12 @@ export const useRecordsStore = defineStore('records', {
     modifyRecord(recordId, formData): Promise<void> {
       return recordsAPI.modifyRecord(recordId, formData).then(response => {
         if (response.status !== 200) Promise.reject()
+      })
+    },
+    fetchBillInfo(): Promise<void> {
+      return recordsAPI.getBill().then(response => {
+        if (response.status !== 200) Promise.reject()
+        this.currentBill = response.data
       })
     }
   }

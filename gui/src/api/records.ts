@@ -9,5 +9,8 @@ export default {
   },
   modifyRecord(recordId: number, formData) {
     return API.put('record/' + recordId, formData)
+  },
+  getBill() {
+    return API.get('current-bill')
   }
 }
