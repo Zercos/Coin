@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import { useAuthStore } from '@/stores/auth'
+import useAuthStore from '@/stores/auth'
 import HomeView from '@/views/HomeView.vue'
 import Login from '@/views/Login.vue'
 
@@ -32,6 +32,26 @@ const router = createRouter({
       name: 'Profile',
       component: () => import('../views/ProfileView.vue'),
     },
+    {
+      path: '/categories',
+      name: 'Categories',
+      component: () => import('../views/CategoriesView.vue'),
+    },
+    {
+      path: '/new-record',
+      name: 'NewRecord',
+      component: () => import('../views/NewRecord.vue'),
+    },
+    {
+      path: '/history',
+      name: 'RecordsHistory',
+      component: () => import('../views/RecordsHistory.vue'),
+    },
+    {
+      path: '/planning',
+      name: 'Planning',
+      component: () => import('../views/PlanningView.vue'),
+    },
   ],
 })
 
@@ -39,6 +59,8 @@ router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
   if (!authStore.isLoggedIn && !['Login', 'Register'].includes(to.name!.toString())) {
     next('/login')
+  } else if (authStore.isLoggedIn && ['Login', 'Register'].includes(to.name!.toString())) {
+    next('/')
   } else {
     next()
   }

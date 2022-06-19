@@ -1,7 +1,7 @@
 <template>
   <div class="app-main-layout" v-loading.fullscreen.lock=loading>
     <navbar @toggle="sidebarIsOpen = !sidebarIsOpen" />
-    <!-- <sidebar v-model="sidebarIsOpen" /> -->
+    <MainSidebar :value="sidebarIsOpen" />
 
     <main class="app-content" :class="{full: !sidebarIsOpen}">
       <div class="app-page">
@@ -18,13 +18,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import Navbar from '@/components/layout/Navbar.vue'
+import MainSidebar from './MainSidebar.vue'
 
 const loading = ref(true)
 const sidebarIsOpen = ref(true)
+if (screen.width < 600) sidebarIsOpen.value = false
+onMounted(() => {
+  if (screen.width < 600) sidebarIsOpen.value = false
+})
 
 setTimeout(() => {
   loading.value = false
-}, 3000)
+}, 1000)
 </script>

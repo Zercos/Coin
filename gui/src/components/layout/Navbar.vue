@@ -1,11 +1,11 @@
 <template>
-  <nav class="navbar orange lighten-1">
+  <nav class="navbar light-green">
     <div class="nav-wrapper">
       <div class="navbar-left">
         <a href="#" @click.prevent="$emit('toggle')">
           <i class="material-icons black-text">dehaze</i>
         </a>
-        <span class="black-text">{{ dateNow }}</span>
+        <span class="black-text">{{ fmtDatetime(dateNow) }}</span>
       </div>
 
       <ul class="right hide-on-small-and-down">
@@ -41,7 +41,9 @@ import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 import type { Ref } from 'vue'
 import M from 'materialize-css'
 import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
+
+import useAuthStore from '@/stores/auth'
+import { fmtDatetime } from '@/utils'
 
 const authStore = useAuthStore()
 const router = useRouter()
@@ -76,4 +78,5 @@ async function logout() {
   await authStore.logout()
   router.push({ name: 'Login' })
 }
+
 </script>

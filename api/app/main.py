@@ -5,8 +5,8 @@ from flask import Flask
 
 from app import models  # noqa: F401
 from app.db import db, migrate
-from app.extensions import bcrypt
-from app.resources import init_resources
+from app.extensions import bcrypt, flask_cors, ma
+from app.resources.api import init_resources
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -19,4 +19,7 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
     bcrypt.init_app(app)
+    flask_cors.init_app(app)
+    ma.init_app(app)
+
     return app

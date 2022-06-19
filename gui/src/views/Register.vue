@@ -17,13 +17,13 @@
         </small>
       </div>
       <div class="input-field">
-        <input id="name" type="text" v-model="firstName" :class="{ invalid: v$.firstName.$error }" />
-        <label for="name">First Name</label>
+        <input id="first_name" type="text" v-model="firstName" :class="{ invalid: v$.firstName.$error }" />
+        <label for="first_name">First Name</label>
         <small class="helper-text" :class="{ invalid: v$.firstName.$error }">Please enter your first name</small>
       </div>
       <div class="input-field">
-        <input id="name" type="text" v-model="lastName" :class="{ invalid: v$.lastName.$error }" />
-        <label for="name">Last Name</label>
+        <input id="last_name" type="text" v-model="lastName" :class="{ invalid: v$.lastName.$error }" />
+        <label for="last_name">Last Name</label>
         <small class="helper-text" :class="{ invalid: v$.lastName.$error }">Please enter your last name</small>
       </div>
       <p>
@@ -54,16 +54,17 @@ import { ref } from 'vue'
 import { required, email as emailVal, minLength } from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core'
 import { useRouter } from 'vue-router'
+import { ElMessageBox } from 'element-plus'
 
-import { useAuthStore } from '@/stores/auth'
+import useAuthStore from '@/stores/auth'
 
 const authStore = useAuthStore()
 const router = useRouter()
 
-const email = ref('')
-const password = ref('')
-const firstName = ref('')
-const lastName = ref('')
+const email = ref()
+const password = ref()
+const firstName = ref()
+const lastName = ref()
 const agree = ref(false)
 
 const rules = {
@@ -80,12 +81,16 @@ async function submitHandler() {
     v$.value.$touch()
     return
   }
-  const formData = { email, password, firstName, lastName, agree }
+  const formData = {
+    email: email.value,
+    password: password.value,
+    first_name: firstName.value,
+    last_name: lastName.value,
+  }
   try {
     await authStore.register(formData)
-    router.push('/')
   } catch (e) {
-    console.error(e)
+    ElMessageBox.alert(`${e}`, 'Error')
   }
 }
 </script>
