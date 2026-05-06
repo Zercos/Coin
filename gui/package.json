@@ -23,7 +23,7 @@
     "materialize-css": "^1.0.0",
     "moment": "^2.29.4",
     "pinia": "^2.0.13",
-    "uuid": "^8.3.2",
+    "uuid": "^14.0.0",
     "vite-plugin-pwa": "^0.21.1",
     "vue": "^3.2.31",
     "vue-chartjs": "^4.1.1",
